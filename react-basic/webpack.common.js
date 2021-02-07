@@ -1,48 +1,49 @@
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'src/'),
+      "@": path.resolve(__dirname, "src/"),
     },
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
-  },
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
+        test: /\.(ts|js)x?$/i,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ['@babel/preset-env', "@babel/preset-react", "@babel/preset-typescript"]
-          }
-        }
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
       },
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         exclude: /node_modules/,
         use: [
           {
-            loader: 'style-loader',
+            loader: "style-loader",
           },
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
               importLoaders: 1,
-            }
+            },
           },
           {
-            loader: 'postcss-loader'
-          }
-        ]
+            loader: "postcss-loader",
+          },
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -57,9 +58,10 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "form-serialize",
+      title: "react-basic",
       template: "src/public/index.html",
     }),
+    new ESLintPlugin({}),
   ],
   output: {
     filename: "[name].bundle.js",
